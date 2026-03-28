@@ -4,6 +4,22 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Main {
+	
+	public static void registrar(){
+		
+	}
+	
+	public static void modificar(/*tarea a modificar, tarea reemplazante*/) {
+		
+	}
+	
+	public static void eliminar(/*tarea a eliminar*/) {
+		
+	}
+	
+	public static void cambioPassword(/*password actual, nueva contraseña*/) {
+		
+	}
 
 	public static void main(String[] args) {
 		
@@ -28,63 +44,93 @@ public class Main {
 				contPersonas += 1;
 			}
 			s.close();	
+			
 		}catch(Exception e){
 			System.out.println("Ocurrió un error al leer el archivo.." + e.getLocalizedMessage());
 		
 		}
 		
-		//aqui empieza mi trabajo
+		
 		
 		Scanner entrada = new Scanner(System.in);
 		
-		System.out.println("1) Menu de Usuarios\r\n" + "2) Menu de Analisis\r\n" + "3) Salir");
 		
-		Integer menu = Integer.valueOf(entrada.nextLine()); // esto quizá hay que ahcerlo con un try y catch para evitar errores pero eso se ve depues
 		
-		do {
+		int menu ;
+		
+		do {  //do while es clave para que te siga preguntando cuando salgas de hacer algo 
+			System.out.println("1) Menu de Usuarios\r\n" + "2) Menu de Analisis\r\n" + "3) Salir");
+			try {
+				
+				menu = Integer.valueOf(entrada.nextLine()); 
+			} catch(Exception e) {
+				System.out.println("Error: Por favor solo ingresar numeros.");
+				menu = 0; 
+				
+			}	
 			
-			if (menu == 1) {
-				boolean acceso = false;
-				while (acceso == false) {
-					int indiceUsuario = 50;
-					
-					System.out.println("\nUsuario: ");
-					String usuario = entrada.nextLine();
-					
-					for ( int i = 0; i < nombres.length; i++ ) {
-						if (usuario.equals(nombres[i]) == true) {
-							indiceUsuario = i;
-							break;
+			//NUEVO PRIMER MENU, MEJORADO Y ORDENADITO
+			switch (menu) {
+			
+				case 1:
+					// Aqui está tu misma logica
+					boolean acceso = false;
+					while (acceso == false) {
+						int indiceUsuario = 50;
+						
+						System.out.print("\nUsuario: ");
+						String usuario = entrada.nextLine();
+						
+						for ( int i = 0; i < nombres.length; i++ ) {
+							if (usuario.equals(nombres[i]) == true) {
+								indiceUsuario = i;
+								break;
+							}
+						}
+						
+						System.out.print("Contraseña: ");
+						String contrasena = entrada.nextLine();
+						
+						
+						if (indiceUsuario <= 49 && contrasena.equals(contrasenas[indiceUsuario]) == true) {
+							acceso = true;
+							System.out.println("\n¡Acceso correcto");
+							
+							// AQUI IRÁ EL SUB-MENU DE USUARIOS 
+							
+							
+							
+							
+						} else {
+							System.out.println("\nAcceso denegado, intente nuevamente.");
 						}
 					}
+					break; 
 					
-					System.out.println("Contraseña: ");
-					String contrasena = entrada.nextLine();
+				case 2:
+					System.out.println("\n--- Bienvenido al Menu de Analisis ---");
 					
-					if (indiceUsuario <= 49 && contrasena.equals(contrasenas[indiceUsuario]) == true) {
-						acceso = true;
-						System.out.println("\nAcceso correcto!");
-					} else {
-						System.out.println("\nacceso denegado");
-					}
+					// ACA EL OTRO MENU
 					
+					break; 
 					
-				}
-				
-				menu = 3; //para evitar bucle infinito por el momento
-			} 
-			
-			else if (menu == 2) {
-				System.out.println("menu de analisis");
-				
-				menu = 3; //para evitar bucle infinito por el momento
+				case 3:
+					System.out.println("\nSaliendo del sistema......");
+					break;
+					
+				default:
+					
+					System.out.println("\nOpción no válida. Por favor, ingrese 1, 2 o 3.");
+					break;
 			}
 			
 		} while (menu != 3);
 		
 		entrada.close();
 		
-		System.out.println("\nAlgoritmo finalizado"); //para saber que termino y todo funciono
+		System.out.println("\nAlgoritmo finalizado"); //para saber que termino
+		
+		
 	}
 
 }
