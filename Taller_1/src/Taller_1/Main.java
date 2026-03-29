@@ -22,46 +22,111 @@ public class Main {
 		
 	}
 	
-	public static void actividadMasRealizada(String[] nombres, String[] protagonista,String[] actividades, int[] horas) {
-		//sin finalizar
-		//tres for son demasiados?
+	private static void actividadMasRealizada (String[] actividades, int[] horas) {
 		
+		String[] actividadesUnicas = new String[300];
+		int[] horasPorActividad = new int[300];
+		
+		for (int i = 0; i < 300; i++) { //recorremos las actividades
+			if (actividades[i] == null) {
+				break; //terminamos el codigo si ya no hay mas actividades
+				
+			}
+			
+			for (int j = 0; j < 300; j++) { //recorremos las actividades unicas
+				if (actividadesUnicas[j] != null && actividadesUnicas[j].equals(actividades[i])) { //si la actividad existe, le agregamos las horas de actividad
+					 horasPorActividad[j] = horasPorActividad[j] + horas[i];
+					 break;
+							 
+				} else if (actividadesUnicas[j] == null) { //si no existe, la agregamos a la lista y cortamos el for para continuar
+					actividadesUnicas[j] = actividades[i];
+					horasPorActividad[j] = horasPorActividad[j] + horas[i];
+					break;
+				}
+				
+			}
+		}
+		
+		String actividadMasFrecuente = "Ninguna";
+		int maxHoras = 0;
+		
+		for (int k = 0; k < 300; k++) { //recorremos la informacion recolectada
+			if (horasPorActividad == null) { //terminamos si no hay mas datos
+				break;
+			}else if (horasPorActividad[k] > maxHoras) { //buscamos la mayor cantidad de horas
+				maxHoras = horasPorActividad[k];
+				actividadMasFrecuente = actividadesUnicas[k];//guardamos la actividad
+			}
+		}
+		//printeamos
+		System.out.println("\nLa actividad más realizada fue:\n\n*" + actividadMasFrecuente + " -> con " + maxHoras + " horas registradas\n");
+		
+	}
+	
+	public static void actividadMasRealizadaUsuario(String[] nombres, String[] protagonista,String[] actividades, int[] horas) {
+		//sin finalizar
+		//tres for son demasiados? se me habia ocurrido una forma mas eficiente en la tarde pero se me olvido ya
+		
+		System.out.println("Actividades mas realizadas por cada usuario:\n");
 		for (int i = 0; i < 50; i++) { //recorre cada usuario
 			if (nombres[i] == null) {
 				break; //terminamos si ya no hay usuarios
 			}
 			
 			String[] actividadesUnicas = new String[300];
-			int[] HorasPorActividad = new int[300];
+			int[] horasPorActividad = new int[300];
 			
-			for (int j = 0; j< 300; j++) { //recorre los datos de cada actividad, usando de referencia al que la realiza
+			for (int j = 0; j< 300; j++) { //recorre los datos de cada actividad
 				if ( protagonista[j] == null) {
 					break; //terminamos si ya no hay actividades
 					
 				} else if (nombres[i].equals(protagonista[j])) {
 					
-					for (int h = 0; h<300; h++) { //recorre las actividades unicas hasta encontrar una igual
+					for (int h = 0; h<300; h++) { //recorre las actividades unicas
 						
 						if (actividadesUnicas[h] != null && actividadesUnicas[h].equals(actividades[j])) { //si la actividad existe, le agregamos las horas de actividad
-							 HorasPorActividad[h] = HorasPorActividad[h] + horas[j];
+							 horasPorActividad[h] = horasPorActividad[h] + horas[j];
 							 break;
 									 
 						} else if (actividadesUnicas[h] == null) { //si no existe, la agregamos a la lista y cortamos el for para continuar
 							actividadesUnicas[h] = actividades[j];
-							HorasPorActividad[h] = HorasPorActividad[h] + horas[j];
+							horasPorActividad[h] = horasPorActividad[h] + horas[j];
 							break;
 						}
 						
 					}
 				}
 			}
+			
+			int maxHoras = 0;
+			String actividadMasFrecuente = "Ninguna";
+			
+			for (int k = 0; k < 300; k++) { //recorremos los datos recolectados
+	            if (actividadesUnicas[k] == null) { 
+	                break; // para terminar el for cuando no hayan mas datos
+	            }
+	            
+	            if (horasPorActividad[k] > maxHoras) { // Actualizamos el récord de horas
+	                maxHoras = horasPorActividad[k]; 
+	                actividadMasFrecuente = actividadesUnicas[k]; 
+	            }
+	        }
+	        
+	        // Imprimimos el resultado para este usuario
+	        if (maxHoras > 0) {
+	            System.out.println("*" + nombres[i] + " -> " + actividadMasFrecuente + " -> con " + maxHoras + " horas registradas");
+	        }
 		}
+		
+		System.out.println(); //por razones meramente esteticas
 		
 	}
 	
+	
+	
+	
 	public static void main(String[] args) {
 		
-		//quiza la lectura de este archivo deba ser en caso de abrir el menu 1
 		String[] nombres = new String[50];
 		String[] contrasenas = new String[50];
 		
@@ -89,7 +154,6 @@ public class Main {
 		
 		}
 		
-		 // rehice esto como 3 veces tratando de dejarlo listo para en los metodos hacer poco, pero me rindo, me limite a dejar cada dato en una lista
 		
 		String[] protagonista = new String[300]; //protagonista de la actividad, por supuesto
 		String[] actividades = new String[300];
@@ -124,15 +188,17 @@ public class Main {
 		int menu ;
 		
 		
-		do {  //do while es clave para que te siga preguntando cuando salgas de hacer algo 
-				//no lo puse porque no sabia si el menu debia continuar, aunque pensandolo el salir como opcion indica que si
-			System.out.println("1) Menu de Usuarios\r\n" + "2) Menu de Analisis\r\n" + "3) Salir");
+		do {
+				
+			System.out.println("1) Menu de Usuarios\n"
+					+ "2) Menu de Analisis"
+					+ "\n3) Salir");
+			
 			try {
 				menu = Integer.valueOf(entrada.nextLine()); 
 			} catch(Exception e) {
 				System.out.println("Error: Por favor solo ingresar numeros.");
 				menu = 0; 
-				
 			}	
 			
 			//NUEVO PRIMER MENU, MEJORADO Y ORDENADITO
@@ -177,6 +243,38 @@ public class Main {
 					
 					System.out.println("\n--- Bienvenido al Menu de Analisis ---");
 					
+					System.out.println("\nQue deseas realizar?\n"
+							+ "1) Actividad más realizada\r\n"
+							+ "2) Actividad más realizada por cada usuario\r\n"
+							+ "3) Usuario con mayor procastinacion\r\n"
+							+ "4) Ver todas las actividades\r\n"
+							+ "5) Salir");
+					
+					short submenu;
+					try {
+						submenu = Short.valueOf(entrada.nextLine()); 
+					} catch(Exception e) {
+						System.out.println("Error: Por favor solo ingresar numeros.");
+						submenu = 0; 
+						
+					}
+					switch (submenu) {
+					
+					case 1: 
+						actividadMasRealizada (actividades , cantidadHoras);
+						break;
+						
+					case 2:
+						actividadMasRealizadaUsuario(nombres, protagonista, actividades, cantidadHoras);
+						break;
+						
+					case 3:
+						//metodo de procrastinacion
+						
+					case 4:
+						//metodo para ver todas las actividades
+						
+					}
 					
 					
 					// ACA EL OTRO MENU
@@ -194,12 +292,8 @@ public class Main {
 			}
 			
 		} while (menu != 3);
-		
 		entrada.close();
 		
 		System.out.println("\nAlgoritmo finalizado"); //para saber que termino
-		
-		
 	}
-
 }
