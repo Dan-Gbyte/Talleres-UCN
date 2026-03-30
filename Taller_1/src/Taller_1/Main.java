@@ -4,10 +4,14 @@ import java.io.File;
 import java.util.Scanner;
 
 
+
+
+
+
 public class Main {
 	
 	/*cuando creas un scanner dentro de una funcion al salir se rompe */
-	public static void menuUsuarios(String usuarioLogueado, Scanner entrada, String[] protagonista, String[] fechaAct, String[] actividades ){
+	public static void menuUsuarios(String usuarioLogueado, Scanner entrada, String[] protagonista, String[] fechaAct, String[] actividades, int contRegistros, int[] cantidadHoras ){
 		int opcionSubmenu = 0;
 		
 		do {
@@ -32,19 +36,93 @@ public class Main {
 			case 2: 
 				System.out.println("Cual actividad deseas modificar?");
 				
-				for (int i = 0; i < protagonista.length;i++) {//para encontrar las actividades del protagonista
+				int[] indicesActUsuario = new int[300];
+				int contador = 0;
+				
+				//PRINTEAMOS LA LINEA  REGISTRADA CON EL USUARIO..
+				
+				System.out.println("0)Regresar ");
+				for (int i = 0; i < contRegistros;i++) {//para encontrar las actividades del protagonista
+					if (usuarioLogueado.equals(protagonista[i])){
+		
+						System.out.println((contador + 1) + ") " + protagonista[i] + ";" + fechaAct[i] + ";" + cantidadHoras[i] + ";" + actividades[i]);
+						//AL FINAL PRINTIE ASI 
+						indicesActUsuario[contador] = i;//AÑADIMOS EL INDICE A UN ARRAY
+						contador++;//CONTADOR DE CUANTOS INDICES LLEVAMOS EN EL ARRAY
+					}
+				}
+				
+				try {
+					int eleccion = Integer.valueOf(entrada.nextLine());
+					
+					if (eleccion == 0) {
+						System.out.println("Regresando al menu anterior....");
+					}else if(eleccion >0 && eleccion <= contador) {
+						int idxActElegida = indicesActUsuario[eleccion-1]; //INDICE ACTIVIDAD ELEGIDA
+						
+						
+						// ACA DEBE IR LA FUNCION DE MODIFICAR (YA TENEMOS LA ACTIVIDAD) EN PROCESO...
+						
+					}else {
+						System.out.println("Error.. Eleccion fuera de rango");
+					}
+					
+					
+				}catch(Exception e){
+					System.out.println("Error al ingresar opcion.."+ e.getLocalizedMessage());
 					
 				}
 				
-				// otro menu aca (elegir actividad a modificar..)
+				
+				
+				break;
+				
+				
 			case 3:
 				System.out.println("Opcion eliminar");// tambien menu para eligir cual
 				
+				int[] indicesActUsuario2 = new int[300];
+				int contadorActs = 0;
+				
+				System.out.println("0)Regresar ");
+				for (int i = 0; i < contRegistros;i++) {//para encontrar las actividades del protagonista
+					if (usuarioLogueado.equals(protagonista[i])){
+		
+						System.out.println((contadorActs + 1) + ") " + protagonista[i] + ";" + fechaAct[i] + ";" + cantidadHoras[i] + ";" + actividades[i]);
+						indicesActUsuario2[contadorActs] = i;
+						contadorActs++;
+					}
+				}	
+				
+				try {
+					int eleccion = Integer.valueOf(entrada.nextLine());
+					
+					if (eleccion == 0) {
+						System.out.println("Regresando al menu anterior....");
+					}else if(eleccion >0 && eleccion <= contadorActs) {
+						int idxActElegida = indicesActUsuario2[eleccion-1]; //INDICE ACTIVIDAD ELEGIDA
+						
+						// ACA DEBE IR LA FUNCION DE ELIMINAR (YA TENEMOS LA ACTIVIDAD)
+						
+					}
+					
+					
+				}catch(Exception e){
+					System.out.println("Error al ingresar opcion.."+ e.getLocalizedMessage());
+					
+				}
+				
+				break;
+				
 			case 4:
 				System.out.println("Cambiar contrasena.");
+				break;
 				
 			case 5:
 				System.out.println("Saliendo del Submenu..");
+				break;
+			
+				//FALTO EL DEFAULT?
 				
 			}
 			  
@@ -58,8 +136,27 @@ public class Main {
 		
 	}
 	
-	public static void modificar(/*tarea a modificar, tarea reemplazante*/) {
-		
+	public static void modificar(int idxActElegida, Scanner entrada, String[] fechaAct, String[] actividades, int[] cantidadHoras/*tarea a modificar, tarea reemplazante*/) {
+			String actividadElegida = actividades[idxActElegida];
+			System.out.println("\n¿Qué deseas modificar de la actividad " + actividadElegida + "?");
+			System.out.println("\n"
+					+ "0) Regresar.\n"
+					+ "1) Fecha\n"
+					+ "2) Duracion\n"
+					+ "3) Tipo de actividad\n"); //MENU DEL MENU DEL MENU DEL MENU PARA SABER QUE QUIERE MODIFICAR
+			
+			try {//SIEMPRE TRY CATCH POR SI NO PONE UN NUMERO..
+				int opcionMod = Integer.valueOf(entrada.nextLine());
+				
+				switch(opcionMod) {
+				
+				
+				}
+				
+			}catch(Exception e) {
+				System.out.println("Error al ingresar opcion.."+ e.getLocalizedMessage());
+			}
+			
 	}
 	
 	public static void eliminar(/*tarea a eliminar*/) {
@@ -207,12 +304,13 @@ public class Main {
 		String[] actividades = new String[300];
 		String[] fechasAct = new String[300];
 		int[] cantidadHoras = new int[300]; //quiza deba tomarlo como string o hacer control de errores pero no es un input asi que no se si va
-		
+		int contRegistros = 0;
 		
 		try {
 			File file = new File("Registros.txt");
 			Scanner s = new Scanner(file);
 			int i = 0;
+			
 			
 			while(s.hasNextLine()){
 				String linea = s.nextLine();
@@ -222,6 +320,8 @@ public class Main {
 				fechasAct[i] = partes[1];
 				actividades[i] = partes[3];
 				cantidadHoras[i] = Integer.parseInt(partes[2]);
+				
+				contRegistros++;
 				i++;
 			}
 			s.close();
@@ -276,7 +376,7 @@ public class Main {
 							acceso = true;
 							System.out.println("\n¡Acceso correcto!");
 							String usuarioLogueado = nombres[indiceUsuario];
-							menuUsuarios(usuarioLogueado, entrada, protagonista, fechasAct, actividades );
+							menuUsuarios(usuarioLogueado, entrada, protagonista, fechasAct, actividades, contRegistros, cantidadHoras);
 							// AQUI IRÁ EL SUB-MENU DE USUARIOS 
 							
 							
