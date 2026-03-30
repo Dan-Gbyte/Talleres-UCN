@@ -6,6 +6,54 @@ import java.util.Scanner;
 
 public class Main {
 	
+	/*cuando creas un scanner dentro de una funcion al salir se rompe */
+	public static void menuUsuarios(String usuarioLogueado, Scanner entrada, String[] protagonista, String[] fechaAct, String[] actividades ){
+		int opcionSubmenu = 0;
+		
+		do {
+			System.out.println("Bienvenido " + usuarioLogueado + "!");
+			System.out.println("Que deseas realizar?\n"
+					+ "\n"
+					+ "1) Registrar actividad.\n"
+					+ "2) Modificar actividad.\n"
+					+ "3) Eliminar actividad.\n"
+					+ "4) Cambiar contraseña.\n"
+					+ "5) Salir.");
+			try{
+				opcionSubmenu = Integer.valueOf(entrada.nextLine());
+			} catch(Exception e) {
+				System.out.println("Error: Option no valida"+ e.getLocalizedMessage());
+				opcionSubmenu = 0;
+			}
+			
+			switch(opcionSubmenu) {
+			case 1:
+				System.out.println("Opcion registrar");
+			case 2: 
+				System.out.println("Cual actividad deseas modificar?");
+				
+				for (int i = 0; i < protagonista.length;i++) {//para encontrar las actividades del protagonista
+					
+				}
+				
+				// otro menu aca (elegir actividad a modificar..)
+			case 3:
+				System.out.println("Opcion eliminar");// tambien menu para eligir cual
+				
+			case 4:
+				System.out.println("Cambiar contrasena.");
+				
+			case 5:
+				System.out.println("Saliendo del Submenu..");
+				
+			}
+			  
+			
+		}while(opcionSubmenu != 5);
+		
+		
+	}
+	
 	public static void registrar(){
 		
 	}
@@ -227,7 +275,8 @@ public class Main {
 						if (indiceUsuario <= 49 && contrasena.equals(contrasenas[indiceUsuario]) == true) {
 							acceso = true;
 							System.out.println("\n¡Acceso correcto!");
-							
+							String usuarioLogueado = nombres[indiceUsuario];
+							menuUsuarios(usuarioLogueado, entrada, protagonista, fechasAct, actividades );
 							// AQUI IRÁ EL SUB-MENU DE USUARIOS 
 							
 							
