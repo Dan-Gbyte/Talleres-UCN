@@ -11,7 +11,7 @@ public class Main {
 		int opcionSubmenu = 0;
 		
 		do {
-			System.out.println("Bienvenido " + usuarioLogueado + "!");
+			System.out.println("\nBienvenido " + usuarioLogueado + "!");
 			System.out.println("Que deseas realizar?\n\n"
 					+ "1) Registrar actividad.\n"
 					+ "2) Modificar actividad.\n"
@@ -28,6 +28,7 @@ public class Main {
 			switch(opcionSubmenu) {
 			case 1:
 				System.out.println("Opcion registrar");
+				contRegistros = registrar(usuarioLogueado, entrada, fechaAct, actividades, cantidadHoras, protagonista, contRegistros);
 			case 2: 
 				System.out.println("Cual actividad deseas modificar?");
 				
@@ -55,7 +56,7 @@ public class Main {
 					}else if(eleccion >0 && eleccion <= contador) {
 						int idxActElegida = indicesActUsuario[eleccion-1]; //INDICE ACTIVIDAD ELEGIDA
 						
-						
+						modificar(idxActElegida, entrada, fechaAct, actividades, cantidadHoras);
 						// ACA DEBE IR LA FUNCION DE MODIFICAR (YA TENEMOS LA ACTIVIDAD) EN PROCESO...
 						
 					}else {
@@ -97,8 +98,11 @@ public class Main {
 					}else if(eleccion >0 && eleccion <= contadorActs) {
 						int idxActElegida = indicesActUsuario2[eleccion-1]; //INDICE ACTIVIDAD ELEGIDA
 						
+						eliminar(idxActElegida, fechaAct, actividades, cantidadHoras, protagonista);
 						// ACA DEBE IR LA FUNCION DE ELIMINAR (YA TENEMOS LA ACTIVIDAD)
 						
+					}else {
+						System.out.println("Error.. Eleccion fuera de rango");
 					}
 					
 					
@@ -127,8 +131,29 @@ public class Main {
 		
 	}
 	
-	public static void registrar(){
-		
+	public static int registrar(String usuarioLogueado, Scanner entrada, String[] fechaAct, String[] actividades, int[] cantidadHoras, String[] protagonista, int contRegistros){
+						// Guardamos al usuario actual en el espacio disponible
+				protagonista[contRegistros] = usuarioLogueado;
+				
+				System.out.print("Ingrese la fecha (DD/MM/AAAA): ");
+				fechaAct[contRegistros] = entrada.nextLine();
+				
+				System.out.print("Ingrese la actividad (ej: estudiar POO): ");
+				actividades[contRegistros] = entrada.nextLine();
+				
+				System.out.print("Ingrese la duración (en horas): ");
+				try {
+					cantidadHoras[contRegistros] = Integer.parseInt(entrada.nextLine());
+					System.out.println("\nActividad registrada ");
+					
+					//devolvemos el contador MAS 1 PARA REGISTRAR LA NUEVA ACTIVIDAD
+					return contRegistros + 1; 
+					
+				} catch (Exception e) {
+					System.out.println("Error en las horas. Ingrese solo numeros enteros. Registro cancelado.");
+					// Si el usuario se equivoca y pone letras el contador tal cual estaba para no romper todo
+					return contRegistros; 
+				}
 	}
 	
 	public static void modificar(int idxActElegida, Scanner entrada, String[] fechaAct, String[] actividades, int[] cantidadHoras/*tarea a modificar, tarea reemplazante*/) {
@@ -145,8 +170,34 @@ public class Main {
 				
 				switch(opcionMod) {
 				
-				
-				}
+				case 0:
+					System.out.println("Regresando...");
+					break;
+				case 1:
+					//Modificar Fecha logica
+					System.out.print("Ingrese nueva fecha (formato: DD/MM/AAAA): ");
+					fechaAct[idxActElegida] = entrada.nextLine();
+					System.out.println("\nFecha modificada..");
+					
+					break;
+				case 2:
+					System.out.print("Ingrese nueva duración (EN HORAS): ");
+					try {
+						cantidadHoras[idxActElegida] = Integer.parseInt(entrada.nextLine());
+						System.out.println("\nDuracion modificada con exito");
+					} catch (Exception e) {
+						System.out.println("Error: Debes ingresar un numero valido."+ e.getLocalizedMessage());
+					}
+					break;
+				case 3:
+					System.out.print("Ingrese nueva actividad: ");
+					actividades[idxActElegida] = entrada.nextLine();
+					System.out.println("\nActividad modificada..");
+					break;
+				default:
+					System.out.println("\nOpción no válida. Por favor, ingrese 1, 2 o 3.");
+					break;
+				}//falta la logica de modificar el archivo con los registros de la actividad
 				
 			}catch(Exception e) {
 				System.out.println("Error al ingresar opcion.."+ e.getLocalizedMessage());
@@ -154,7 +205,15 @@ public class Main {
 			
 	}
 	
-	public static void eliminar(/*tarea a eliminar*/) {
+	public static void eliminar(int idxActElegida, String[] fechaAct, String[] actividades, int[] cantidadHoras, String[] protagonista) {
+		System.out.println("Actividad " + actividades[idxActElegida] + " eliminada.."); // mostrar la actividad a eliminar
+		
+		actividades[idxActElegida] = "ELIMINADA"; 
+		fechaAct[idxActElegida] = "ELIMINADA";
+		cantidadHoras[idxActElegida] = 0; // cero porque es un array de enteros
+		protagonista[idxActElegida] = "ELIMINADO";
+		
+		//falta la logica de modificar el archivo con los registros de la actividad
 		
 	}
 	
