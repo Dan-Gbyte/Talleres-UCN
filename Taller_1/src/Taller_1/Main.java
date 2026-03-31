@@ -4,10 +4,6 @@ import java.io.File;
 import java.util.Scanner;
 
 
-
-
-
-
 public class Main {
 	
 	/*cuando creas un scanner dentro de una funcion al salir se rompe */
@@ -16,8 +12,7 @@ public class Main {
 		
 		do {
 			System.out.println("Bienvenido " + usuarioLogueado + "!");
-			System.out.println("Que deseas realizar?\n"
-					+ "\n"
+			System.out.println("Que deseas realizar?\n\n"
 					+ "1) Registrar actividad.\n"
 					+ "2) Modificar actividad.\n"
 					+ "3) Eliminar actividad.\n"
@@ -267,8 +262,47 @@ public class Main {
 		
 	}
 	
+	public static void mayorProcrastinador (String[] usuario,String[] protagonista, String[] actividad, String[] fecha, int[] horas) {
+		
+		int[] horasProcrastinando = new int[50];
+		
+		for(int i = 0; i <50 ; i++) { //recorremos usuarios
+			if (usuario[i] == null) {
+				break;
+			}	
+			horasProcrastinando[i] = 0; //no se si tengo que inicializar la variable
+			for(int j = 0; j < 300; j++) { //recorremos actividades buscando las de ese usuario
+				if (usuario[i].equals(protagonista[j]) && !actividad[j].equals("estudiar")) { //verificamos que no este estudiando 
+				horasProcrastinando[i] += horas[j];
+				}
+			} 
+					
+		}
+		int maxHorasProcrastinando = 0;
+		int indiceGanador = 0;
+		for (int i = 0; i <50; i++) {
+			if (usuario[i] == null) { 
+				 System.out.println("cortando el for...");
+                break; // para terminar el for cuando no hayan mas datos
+                
+            }else if (horasProcrastinando[i] > maxHorasProcrastinando) { // buscamos al que tiene mas horas procrastinadas
+                maxHorasProcrastinando = horasProcrastinando[i]; 
+                indiceGanador = i; 
+			}
+		}
+		System.out.println("el usuario que más procrastinó fué " + usuario[indiceGanador] + " con " + maxHorasProcrastinando + " horas procrastinando.");
+	}
 	
-	
+	public static void mostrarActividades(String[] protagonista, String[] actividad, String[] fecha, int[] horas) {
+		
+		//esta es tan simple que no creo que necesite explicacion
+		for (int i = 0; i < 300; i++) {
+			if (protagonista[i] != null) {
+				System.out.println(fecha[i] + ", " + protagonista[i] + " realizó la actividad " + actividad[i] + " durante " + horas[i] + " horas.");
+			}
+		}
+		System.out.println("\n");
+	}
 	
 	public static void main(String[] args) {
 		
@@ -353,7 +387,6 @@ public class Main {
 			switch (menu) {
 			
 				case 1:
-					// Aqui está tu misma logica
 					boolean acceso = false;
 					while (acceso == false) {
 						int indiceUsuario = 50;
@@ -376,6 +409,8 @@ public class Main {
 							acceso = true;
 							System.out.println("\n¡Acceso correcto!");
 							String usuarioLogueado = nombres[indiceUsuario];
+							
+							
 							menuUsuarios(usuarioLogueado, entrada, protagonista, fechasAct, actividades, contRegistros, cantidadHoras);
 							// AQUI IRÁ EL SUB-MENU DE USUARIOS 
 							
@@ -418,10 +453,12 @@ public class Main {
 						break;
 						
 					case 3:
-						//metodo de procrastinacion
+						mayorProcrastinador(nombres, protagonista, actividades, fechasAct, cantidadHoras);
+						break;
 						
 					case 4:
-						//metodo para ver todas las actividades
+						mostrarActividades(protagonista, actividades, fechasAct, cantidadHoras);
+						break;
 						
 					}
 					
