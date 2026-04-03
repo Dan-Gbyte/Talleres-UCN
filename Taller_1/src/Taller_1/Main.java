@@ -6,12 +6,23 @@ import java.util.Scanner;
 
 public class Main {
 	
-	/*cuando creas un scanner dentro de una funcion al salir se rompe */
-	public static void menuUsuarios(String usuarioLogueado, Scanner entrada, String[] protagonista, String[] fechaAct, String[] actividades, int contRegistros, int[] cantidadHoras ){
+	/*
+	Daniel Gabriel Moreno Moreno
+	22.152.252-4 
+	Ingeniería Civil en computación e informática
+	
+	
+	Demian Antonio Catalán Cruces
+	22.241.541-1
+	Ingeniería Civil en computación e informática
+	*/
+	
+	public static void menuUsuarios(String usuarioLogueado, Scanner entrada, String[] protagonista, String[] fechaAct, String[] actividades, int contRegistros, int[] cantidadHoras, String[] nombres, String[] contrasenas){
+		//tuve que agregar las otras listas para el cambio de contraseña
 		int opcionSubmenu = 0;
 		
 		do {
-			System.out.println("\nBienvenido " + usuarioLogueado + "!");
+			System.out.println("\n--- Bienvenido " + usuarioLogueado + "! ---");
 			System.out.println("Que deseas realizar?\n\n"
 					+ "1) Registrar actividad.\n"
 					+ "2) Modificar actividad.\n"
@@ -55,7 +66,7 @@ public class Main {
 					int eleccion = Integer.valueOf(entrada.nextLine());
 					
 					if (eleccion == 0) {
-						System.out.println("Regresando al menu anterior....");
+						System.out.println("Regresando al menu anterior...");
 					}else if(eleccion >0 && eleccion <= contador) {
 						int idxActElegida = indicesActUsuario[eleccion-1]; //INDICE ACTIVIDAD ELEGIDA
 						
@@ -63,7 +74,7 @@ public class Main {
 						// ACA DEBE IR LA FUNCION DE MODIFICAR (YA TENEMOS LA ACTIVIDAD) EN PROCESO...
 						
 					}else {
-						System.out.println("Error.. Eleccion fuera de rango");
+						System.out.println("Error... Eleccion fuera de rango");
 					}
 					
 					
@@ -102,24 +113,29 @@ public class Main {
 						// ACA DEBE IR LA FUNCION DE ELIMINAR (YA TENEMOS LA ACTIVIDAD)
 						
 					}else {
-						System.out.println("Error.. Eleccion fuera de rango");
+						System.out.println("Error... Eleccion fuera de rango");
 					}
 					
 					
 				}catch(Exception e){
-					System.out.println("Error al ingresar opcion.."+ e.getLocalizedMessage());
+					System.out.println("Error al ingresar opcion..."+ e.getLocalizedMessage());
 					
 				}
 				
 				break;
 				
 			case 4:
-				System.out.println("Cambiar contrasena..EN PROCESOO");
+				System.out.println("Ingrese su contraseña actual:");
+				String contrasena = entrada.nextLine(); 
 				
+				System.out.println("Ingrese su nueva contraseña:");
+				String nuevaContrasena = entrada.nextLine();
+				
+					cambioPassword(usuarioLogueado, nombres, contrasenas, contrasena, nuevaContrasena) ;
 				break;
 				
 			case 5:
-				System.out.println("Saliendo del Submenu..");
+				System.out.println("Saliendo del menú de usuarios...\n");
 				break;
 			
 			default:
@@ -130,6 +146,7 @@ public class Main {
 			  
 			
 		}while(opcionSubmenu != 5);
+		
 		
 		
 	}
@@ -146,9 +163,14 @@ public class Main {
 				
 				System.out.print("Ingrese la duración (en horas): ");
 				try {
-					cantidadHoras[contRegistros] = Integer.parseInt(entrada.nextLine());
-					System.out.println("\nActividad registrada ");
-					
+					do {
+						cantidadHoras[contRegistros] = Integer.parseInt(entrada.nextLine());
+						if (cantidadHoras[contRegistros] <= 0 || cantidadHoras[contRegistros] > 24) {
+							System.out.println("Ingrese una cantidad de horas válida:");
+						} else {
+							System.out.println("\nActividad registrada ");
+						}
+					} while (cantidadHoras[contRegistros] <= 0 || cantidadHoras[contRegistros] > 24);
 					//devolvemos el contador MAS 1 PARA REGISTRAR LA NUEVA ACTIVIDAD
 					return contRegistros + 1; 
 					
@@ -162,7 +184,7 @@ public class Main {
 	public static void guardarEnRegistros(String[] protagonista, String[] fechaAct, String[] actividades, int[] cantidadHoras, int contRegistros){
 		try {
 			
-			java.io.PrintWriter escritor = new java.io.PrintWriter("Registros.txt");//PAGINA EN BLANCO
+			java.io.PrintWriter escritor = new java.io.PrintWriter("Registros.txt");//CREANDO PAGINA EN BLANCO
 			for (int i = 0; i < contRegistros; i++) {
 				
 				if (protagonista[i] != null && !protagonista[i].equals("ELIMINADO")) {
@@ -209,10 +231,16 @@ public class Main {
 				case 2:
 					System.out.print("Ingrese nueva duración (EN HORAS): ");
 					try {
-						cantidadHoras[idxActElegida] = Integer.parseInt(entrada.nextLine());
-						System.out.println("\nDuracion modificada con exito");
+						do {
+							cantidadHoras[idxActElegida] = Integer.parseInt(entrada.nextLine());
+							if (cantidadHoras[idxActElegida] <= 0 || cantidadHoras[idxActElegida] > 24) {
+								System.out.println("Ingrese una cantidad de horas válida:");
+							} else {
+								System.out.println("\nDuracion modificada con exito");
+							}
+						} while (cantidadHoras[idxActElegida] <= 0 || cantidadHoras[idxActElegida] > 24);
 					} catch (Exception e) {
-						System.out.println("Error: Debes ingresar un numero valido."+ e.getLocalizedMessage());
+						System.out.println("Error: Debes ingresar un numero natural."+ e.getLocalizedMessage());
 					}
 					break;
 				case 3:
@@ -223,7 +251,7 @@ public class Main {
 				default:
 					System.out.println("\nOpción no válida. Por favor, ingrese 1, 2 o 3.");
 					break;
-				}//falta la logica de modificar el archivo con los registros de la actividad
+				}
 				
 			}catch(Exception e) {
 				System.out.println("Error al ingresar opcion.."+ e.getLocalizedMessage());
@@ -239,11 +267,42 @@ public class Main {
 		cantidadHoras[idxActElegida] = 0; // cero porque es un array de enteros
 		protagonista[idxActElegida] = "ELIMINADO";
 		
-		//falta la logica de modificar el archivo con los registros de la actividad
 		
 	}
 	
-	public static void cambioPassword(/*password actual, nueva contraseña*/) {
+	public static void cambioPassword(String Usuario, String[] nombres, String contrasenas[], String password, String newPassword) {
+		
+		boolean cambio = false;
+		
+		for (int i = 0; i < 50; i++) { //buscamos el usuario cuya contraseña vamos a cambiar y cambiamos la lista
+			
+			if (nombres[i] == null) {
+				break;
+			} else if (nombres[i].equals(Usuario) && contrasenas[i].equals(password)) {
+				contrasenas[i] = newPassword;
+				cambio = true;
+			} 
+		
+		}
+		
+		try {
+			java.io.PrintWriter escritor = new java.io.PrintWriter("Usuarios.txt");
+			
+			if (cambio == true) {
+				for (int i = 0; i < 50; i++) {
+					if (nombres[i] == null) {break;} //terminamos el for si ya no hay usuarios
+				
+					escritor.println(nombres[i] + ";" + contrasenas[i]);
+				}
+			}
+			escritor.close();
+		} catch (Exception e) {
+			System.out.println("Hubo un problema al sobreescribir el archivo");
+		}
+		
+		if (cambio == false) {
+			System.out.println("Contraseña incorrecta.");
+		}
 		
 	}
 	
@@ -367,7 +426,6 @@ public class Main {
 		int indiceGanador = 0;
 		for (int i = 0; i <50; i++) {
 			if (usuario[i] == null) { 
-				 System.out.println("cortando el for...");
                 break; // para terminar el for cuando no hayan mas datos
                 
             }else if (horasProcrastinando[i] > maxHorasProcrastinando) { // buscamos al que tiene mas horas procrastinadas
@@ -457,7 +515,8 @@ public class Main {
 		
 		do {
 				
-			System.out.println("1) Menu de Usuarios\n"
+			System.out.println("--- Bienvenido al menú principal ---\n\n"
+					+ "1) Menu de Usuarios\n"
 					+ "2) Menu de Analisis"
 					+ "\n3) Salir");
 			
@@ -496,7 +555,7 @@ public class Main {
 							String usuarioLogueado = nombres[indiceUsuario];
 							
 							
-							menuUsuarios(usuarioLogueado, entrada, protagonista, fechasAct, actividades, contRegistros, cantidadHoras);
+							menuUsuarios(usuarioLogueado, entrada, protagonista, fechasAct, actividades, contRegistros, cantidadHoras, nombres, contrasenas);
 							// AQUI IRÁ EL SUB-MENU DE USUARIOS 
 							
 							
@@ -543,6 +602,7 @@ public class Main {
 						
 					case 4:
 						mostrarActividades(protagonista, actividades, fechasAct, cantidadHoras);
+						System.out.println("Volviendo al menú principal...\n");
 						break;
 						
 					}
