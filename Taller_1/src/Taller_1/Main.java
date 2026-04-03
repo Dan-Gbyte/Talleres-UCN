@@ -29,6 +29,9 @@ public class Main {
 			case 1:
 				System.out.println("Opcion registrar");
 				contRegistros = registrar(usuarioLogueado, entrada, fechaAct, actividades, cantidadHoras, protagonista, contRegistros);
+				
+				break;
+				
 			case 2: 
 				System.out.println("Cual actividad deseas modificar?");
 				
@@ -68,9 +71,6 @@ public class Main {
 					System.out.println("Error al ingresar opcion.."+ e.getLocalizedMessage());
 					
 				}
-				
-				
-				
 				break;
 				
 				
@@ -114,15 +114,18 @@ public class Main {
 				break;
 				
 			case 4:
-				System.out.println("Cambiar contrasena.");
+				System.out.println("Cambiar contrasena..EN PROCESOO");
+				
 				break;
 				
 			case 5:
 				System.out.println("Saliendo del Submenu..");
 				break;
 			
-				//FALTO EL DEFAULT?
+			default:
 				
+				System.out.println("\nOpción no válida. Por favor, ingrese otra");
+				break;
 			}
 			  
 			
@@ -150,7 +153,7 @@ public class Main {
 					return contRegistros + 1; 
 					
 				} catch (Exception e) {
-					System.out.println("Error en las horas. Ingrese solo numeros enteros. Registro cancelado.");
+					System.out.println("Error en las horas. Ingrese solo numeros enteros. Registro cancelado." + e.getLocalizedMessage());
 					// Si el usuario se equivoca y pone letras el contador tal cual estaba para no romper todo
 					return contRegistros; 
 				}
@@ -194,8 +197,7 @@ public class Main {
 				
 				case 0:
 					System.out.println("Regresando...");
-					//ACA LLAMAR METODO GUARDAR REGISTROS... PARA CUANDO SALGAN DEL MENU MODIFICAR SE GUARDEN LOS CAMBIOS
-					
+										
 					break;
 				case 1:
 					//Modificar Fecha logica
