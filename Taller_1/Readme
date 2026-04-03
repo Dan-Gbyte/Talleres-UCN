@@ -4,8 +4,8 @@
 Este proyecto es una aplicación de consola desarrollada en Java para el Taller 1 de Programación Orientada a Objetos. El sistema permite la gestión de usuarios mediante un sistema de inicio de sesión y ofrece funcionalidades CRUD (Crear, Leer, Actualizar, Eliminar) para el registro de actividades diarias. Además, cuenta con un módulo de análisis de datos para calcular estadísticas como la actividad más realizada y los niveles de procrastinación de los usuarios.
 
 ## Integrantes
-* **Integrante 1:** Demian Antonio Catalán Cruces - RUT: 22.241.541-1 - GitHub: Rippnaikii
-* **Integrante 2:** Daniel Gabriel Moreno Moreno - RUT: 22 - GitHub: Dan-Gbyte
+* Integrante 1: Demian Antonio Catalán Cruces - RUT: 22.241.541-1 - GitHub: Rippnaikii
+* Integrante 2: Daniel Gabriel Moreno Moreno - RUT: 22 - GitHub: Dan-Gbyte
 
 ## Estructura del Proyecto
 El proyecto sigue la estructura estándar de Eclipse:
@@ -17,4 +17,4 @@ El proyecto sigue la estructura estándar de Eclipse:
 ## Instrucciones de Ejecución
 1. Clonar el repositorio en su máquina local:
    ```bash
-   git clone LINK
+   git clone https://github.com/Dan-Gbyte/Talleres-UCN.git
