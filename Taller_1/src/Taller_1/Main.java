@@ -156,6 +156,28 @@ public class Main {
 				}
 	}
 	
+	public static void guardarEnRegistros(String[] protagonista, String[] fechaAct, String[] actividades, int[] cantidadHoras, int contRegistros){
+		try {
+			
+			java.io.PrintWriter escritor = new java.io.PrintWriter("Registros.txt");//PAGINA EN BLANCO
+			for (int i = 0; i < contRegistros; i++) {
+				
+				if (protagonista[i] != null && !protagonista[i].equals("ELIMINADO")) {
+					
+					// ESCRIBIMOS LA LINEA DE NUEVO
+					escritor.println(protagonista[i] + ";" + fechaAct[i] + ";" + cantidadHoras[i] + ";" + actividades[i]);
+				}
+			}
+			
+			
+			escritor.close();
+			
+		}catch(Exception e) {
+			System.out.println("Error al registrar tu modificacion...");
+		}
+		
+	}
+	
 	public static void modificar(int idxActElegida, Scanner entrada, String[] fechaAct, String[] actividades, int[] cantidadHoras/*tarea a modificar, tarea reemplazante*/) {
 			String actividadElegida = actividades[idxActElegida];
 			System.out.println("\n¿Qué deseas modificar de la actividad " + actividadElegida + "?");
@@ -172,6 +194,8 @@ public class Main {
 				
 				case 0:
 					System.out.println("Regresando...");
+					//ACA LLAMAR METODO GUARDAR REGISTROS... PARA CUANDO SALGAN DEL MENU MODIFICAR SE GUARDEN LOS CAMBIOS
+					
 					break;
 				case 1:
 					//Modificar Fecha logica
@@ -528,6 +552,8 @@ public class Main {
 					
 				case 3:
 					System.out.println("\nSaliendo del sistema......");
+					guardarEnRegistros(protagonista, fechasAct, actividades, cantidadHoras, contRegistros);
+					
 					break;
 					
 				default:
