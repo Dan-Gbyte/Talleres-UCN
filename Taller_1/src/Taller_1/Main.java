@@ -285,23 +285,24 @@ public class Main {
 		
 		}
 		
-		try {
-			java.io.PrintWriter escritor = new java.io.PrintWriter("Usuarios.txt");
-			
-			if (cambio == true) {
-				for (int i = 0; i < 50; i++) {
-					if (nombres[i] == null) {break;} //terminamos el for si ya no hay usuarios
+		if (cambio == true) {
+			try {
+				java.io.PrintWriter escritor = new java.io.PrintWriter("Usuarios.txt");
 				
+				for (int i = 0; i < 50; i++) {
+					if (nombres[i] == null) { break; } 
 					escritor.println(nombres[i] + ";" + contrasenas[i]);
 				}
+				
+				escritor.close();
+				System.out.println("\n¡Contraseña actualizada con éxito!");
+				
+			} catch (Exception e) {
+				System.out.println("\nHubo un problema al sobreescribir el archivo: " + e.getLocalizedMessage());
 			}
-			escritor.close();
-		} catch (Exception e) {
-			System.out.println("Hubo un problema al sobreescribir el archivo");
-		}
-		
-		if (cambio == false) {
-			System.out.println("Contraseña incorrecta.");
+		} else {
+			
+			System.out.println("\nError: Contraseña actual incorrecta. No se realizaron cambios.");
 		}
 		
 	}
@@ -433,7 +434,7 @@ public class Main {
                 indiceGanador = i; 
 			}
 		}
-		System.out.println("el usuario que más procrastinó fué " + usuario[indiceGanador] + " con " + maxHorasProcrastinando + " horas procrastinando.");
+		System.out.println("\nel usuario que más procrastinó fué " + usuario[indiceGanador] + " con " + maxHorasProcrastinando + " horas procrastinando.");
 	}
 	
 	public static void mostrarActividades(String[] protagonista, String[] actividad, String[] fecha, int[] horas) {
@@ -590,14 +591,17 @@ public class Main {
 					
 					case 1: 
 						actividadMasRealizada (actividades , cantidadHoras);
+						System.out.println("Volviendo al menú principal...\n");
 						break;
 						
 					case 2:
 						actividadMasRealizadaUsuario(nombres, protagonista, actividades, cantidadHoras);
+						System.out.println("Volviendo al menú principal...\n");
 						break;
 						
 					case 3:
 						mayorProcrastinador(nombres, protagonista, actividades, fechasAct, cantidadHoras);
+						System.out.println("Volviendo al menú principal...\n");
 						break;
 						
 					case 4:
