@@ -185,7 +185,7 @@ public class Main {
 		try {
 			
 			java.io.PrintWriter escritor = new java.io.PrintWriter("Registros.txt");//CREANDO PAGINA EN BLANCO
-			for (int i = 0; i < contRegistros; i++) {
+			for (int i = 0; i < 300; i++) {
 				
 				if (protagonista[i] != null && !protagonista[i].equals("ELIMINADO")) {
 					
@@ -260,7 +260,7 @@ public class Main {
 	}
 	
 	public static void eliminar(int idxActElegida, String[] fechaAct, String[] actividades, int[] cantidadHoras, String[] protagonista) {
-		System.out.println("Actividad " + actividades[idxActElegida] + " eliminada.."); // mostrar la actividad a eliminar
+		System.out.println("\nActividad " + actividades[idxActElegida] + " eliminada.."); // mostrar la actividad a eliminar
 		
 		actividades[idxActElegida] = "ELIMINADA"; 
 		fechaAct[idxActElegida] = "ELIMINADA";
@@ -570,49 +570,53 @@ public class Main {
 					
 				case 2:
 					
-					System.out.println("\n--- Bienvenido al Menu de Analisis ---");
+					short submenu = 5;
 					
-					System.out.println("\nQue deseas realizar?\n"
-							+ "1) Actividad más realizada\r\n"
-							+ "2) Actividad más realizada por cada usuario\r\n"
-							+ "3) Usuario con mayor procastinacion\r\n"
-							+ "4) Ver todas las actividades\r\n"
-							+ "5) Salir");
-					
-					short submenu;
-					try {
-						submenu = Short.valueOf(entrada.nextLine()); 
-					} catch(Exception e) {
-						System.out.println("Error: Por favor solo ingresar numeros.");
-						submenu = 0; 
+					do {
+						System.out.println("\n--- Bienvenido al Menu de Analisis ---");
 						
-					}
-					switch (submenu) {
-					
-					case 1: 
-						actividadMasRealizada (actividades , cantidadHoras);
-						System.out.println("Volviendo al menú principal...\n");
-						break;
+						System.out.println("\nQue deseas realizar?\n"
+								+ "1) Actividad más realizada\r\n"
+								+ "2) Actividad más realizada por cada usuario\r\n"
+								+ "3) Usuario con mayor procastinacion\r\n"
+								+ "4) Ver todas las actividades\r\n"
+								+ "5) Salir");
 						
-					case 2:
-						actividadMasRealizadaUsuario(nombres, protagonista, actividades, cantidadHoras);
-						System.out.println("Volviendo al menú principal...\n");
-						break;
+						try {
+							submenu = Short.valueOf(entrada.nextLine()); 
+						} catch(Exception e) {
+							System.out.println("Error: Por favor solo ingresar numeros.");
+							submenu = 0; 
+							
+						}
+						switch (submenu) {
 						
-					case 3:
-						mayorProcrastinador(nombres, protagonista, actividades, fechasAct, cantidadHoras);
-						System.out.println("Volviendo al menú principal...\n");
-						break;
+						case 1: 
+							actividadMasRealizada (actividades , cantidadHoras);
+							break;
+							
+						case 2:
+							actividadMasRealizadaUsuario(nombres, protagonista, actividades, cantidadHoras);
+							break;
+							
+						case 3:
+							mayorProcrastinador(nombres, protagonista, actividades, fechasAct, cantidadHoras);
+							break;
+							
+						case 4:
+							mostrarActividades(protagonista, actividades, fechasAct, cantidadHoras);
+							break;
+							
+						case 5:
+							System.out.println("Volviendo al menú principal...\n");
+							break;
+							
+						default:
+							System.out.println("\nOpción no válida. Por favor, ingrese 1, 2, 3, 4 o 5.\n");
+							break;
+						}
 						
-					case 4:
-						mostrarActividades(protagonista, actividades, fechasAct, cantidadHoras);
-						System.out.println("Volviendo al menú principal...\n");
-						break;
-						
-					}
-					
-					
-					// ACA EL OTRO MENU
+					} while (submenu != 5);
 					
 					break; 
 					

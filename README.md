@@ -18,4 +18,6 @@ El proyecto sigue la estructura estándar de Eclipse:
 1. Clonar el repositorio en su máquina local:
    ```bash
    git clone https://github.com/Dan-Gbyte/Talleres-UCN.git
-2. lanzar eclipse desde la carpeta Talleres-UCN
+2. lanzar eclipse desde la carpeta Talleres-UCN.
+
+3. Sugerimos aumentar el tamaño de su consola al ejecutar el programa, en caso contrario al realizar una acción tendrá que subir un poco para ver los resultados.
